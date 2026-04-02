@@ -4,12 +4,12 @@ const noteSchema = new mongoose.Schema({
 
   title: {
     type: String,
-    required: true
+    
   },
 
   content: {
     type: String,
-    required: true
+    default: ""
   },
 
   tags: [{
@@ -29,4 +29,4 @@ const noteSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default mongoose.model("Note", noteSchema);
+export const Note = mongoose.model("Note", noteSchema);
