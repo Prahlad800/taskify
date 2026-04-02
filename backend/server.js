@@ -4,6 +4,7 @@ import { connectDB } from "./db/db.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import userRouter from "./router/user_router.js"
+import notesRouter from "./router/notes_router.js"
 import cors from "cors"
 
 
@@ -26,6 +27,7 @@ app.get("/",(req,res)=>{
     res.send("hello server ")
 })
 app.use("/user",userRouter)
+app.use("/notes",notesRouter)
 
 
 
