@@ -8,10 +8,10 @@ const todoSchema = new mongoose.Schema({
     trim: true
   },
 
-  description: {
+  task: [{
     type: String,
     default: ""
-  },
+  }],
 
   completed: {
     type: Boolean,
@@ -30,7 +30,7 @@ const todoSchema = new mongoose.Schema({
 
   user: {
    type:mongoose.Schema.type.ObjectId,
-   ref:"User"
+   ref:"User",
     required: true
   }
 
