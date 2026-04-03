@@ -1,0 +1,22 @@
+.nav {
+    display: flex;
+    justify-content: center;
+
+}
+
+.nav1 {
+
+    width: 95%;
+    height: 70px;
+    margin: 10px;
+    text-align: center;
+    background-color: #0f172aea;
+    border-radius:40px ;
+}
+
+.nav1 h1{
+    margin-top: 15px;
+    text-transform: uppercase;
+    color: antiquewhite;
+   
+}
