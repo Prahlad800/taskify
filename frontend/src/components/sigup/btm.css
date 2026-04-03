@@ -1,0 +1,26 @@
+.btm_pro{
+    width:150px ;
+    height: 50px;
+    border-radius:30px ;
+
+}
+
+.btm_pro {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0c0529, #111849, #02012f);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btm_pro:hover {
+  transform: translateY(-2px);
+  box-shadow: 1px 8px 20px rgba(77, 76, 76, 0.3);
+}
+.btm_pro:active {
+  transform: scale(0.85);
+}
