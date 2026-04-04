@@ -2,3 +2,35 @@
     margin: 0;
     padding: 0;
 }
+.toast-custom {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: rgba(58, 57, 57, 0.9);
+  color: #fff;
+
+  border-radius: 999px;
+  padding: 12px 18px !important;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+
+  transition: all 0.3s ease-in-out;
+}
+
+.toast-custom:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #00c8539b, #63dd178b);
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #ff174593, #ff5252ae);
+}
