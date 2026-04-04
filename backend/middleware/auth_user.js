@@ -37,15 +37,9 @@ export const auth_sigup = (req, res, next) => {
 export const auth_login = (req, res, next) => {
     const schema = Joi.object({
         email: Joi.string().email(),
-        user_name: Joi.string().min(4).max(20),
-      /*  number: Joi.string()
-        .pattern(/^[0-9]{10}$/)
-            .required()
-            .messages({
-                "string.pattern.base":
-                    "Phone number must be exactly 10 digits"
-                }),*/
-                // name: Joi.string().min(3).max(100).required(),
+        
+        
+     
         password: Joi.string()
             .min(6)
             .max(100)

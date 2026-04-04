@@ -69,6 +69,40 @@
   outline: none;
   background: #1e293b;
   color: white;
+
+}
+.hi{
+    position: relative;
+}
+.input_btm {
+  position: absolute;
+  right: 10px;
+  top: 65%;
+  transform: translateY(-50%);
+  
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  outline: none;
+  
+  color: #cbd5f5;
+  font-size: 13px;
+  font-weight: 500;
+  
+  padding: 4px 10px;
+  border-radius: 20px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(5px);
+}
+
+.input_btm:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.input_btm:active {
+  transform: translateY(-50%) scale(0.9);
 }
 
 /* Buttons */
@@ -79,8 +113,36 @@
  align-items: center;
 
 }
+
 .link{
     text-decoration: none;
     color: aliceblue;
-    font-size: 20px;
+    
+}
+
+.btm_pro{
+    width:150px ;
+    height: 50px;
+    border-radius:30px ;
+
+}
+
+.btm_pro {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0c0529, #111849, #02012f);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btm_pro:hover {
+  transform: translateY(-2px);
+  box-shadow: 1px 8px 20px rgba(77, 76, 76, 0.3);
+}
+.btm_pro:active {
+  transform: scale(0.85);
 }
