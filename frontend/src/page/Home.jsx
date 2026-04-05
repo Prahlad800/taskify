@@ -18,11 +18,15 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    const host =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3030"
+      : "https://taskify-notes-task.vercel.app";
     const title_show = async () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("http://localhost:3030/home", {
+        const res = await axios.get(`${host}/home`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

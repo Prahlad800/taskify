@@ -109,7 +109,7 @@ function Login() {
 
             <div className="button-group">
               <button className="btm_pro" type="submit" onClick={handlerSubmit}>
-                Signup
+                Login
               </button>
               <span className="login__footer">
                 Doesn't have an account?{" "}
