@@ -6,7 +6,7 @@ import { create_title,update_content ,delete_note ,show_title } from "../control
  const router =Router()
 
  router.post("/",auth_notes_page,create_title)
- router.post("/:id",auth_notes_page,update_content)
+ router.put("/:id",auth_notes_page,update_content)
  router.delete("/:id",auth_notes_page,delete_note)
 
  router.get("/",auth_notes_page,show_title)

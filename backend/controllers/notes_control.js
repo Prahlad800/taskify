@@ -4,7 +4,7 @@ import { Note } from "../module/notes.js";
 export const create_title = async (req, res) => {
     try {
         const { title } = req.body;
-        console.log(req.body);
+        
         if (!title) {
             return res.status(400)
                 .json({
@@ -91,7 +91,7 @@ export const delete_note = async (req, res) => {
 export const show_title = async (req, res) => {
     try {
         const title_list = await Note.find({  user: req.user._id }, "title")
-        console.log(title_list)
+        // console.log(title_list)
         res.status(200)
             .json({
                 success: true,
