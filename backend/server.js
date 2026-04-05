@@ -17,8 +17,8 @@ const port =process.env.PORT
 app.use(bodyParser.json())
 app.use(cors({
   origin: [
+      "https://taskify-gcxc.onrender.com",
     "http://localhost:5173",
-    "https://taskify-gcxc.onrender.com"
   ],
   credentials: true
 }));
