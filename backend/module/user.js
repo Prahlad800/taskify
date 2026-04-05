@@ -13,7 +13,7 @@ const useSchema = mongoose.Schema({
     user_name: {
         type: String,
         requrid: true,
-        unique: true,
+        // unique: true,
     },
     number: {
         
