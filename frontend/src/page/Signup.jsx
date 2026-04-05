@@ -35,7 +35,7 @@ function Signup() {
     }
     try {
       const res = await axios.post(
-        "http://localhost:3030/user/signup",
+        "https://taskify-gcxc.onrender.com/user/signup",
         userData,
       );
       const { jwtToken, users } = res.data;

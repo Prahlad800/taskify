@@ -16,7 +16,7 @@ const port =process.env.PORT
 
 app.use(bodyParser.json())
 app.use(cors({
-    origin:"https://taskify-notes-task.vercel.app" ||"http://localhost:5173"
+    origin: "https://taskify-gcxc.onrender.com" || "http://localhost:5173"
 }))
 app.use(express.json());
 app.use(cookieParser());
