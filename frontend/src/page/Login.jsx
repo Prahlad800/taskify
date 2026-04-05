@@ -8,6 +8,10 @@ import { handleError, handleSuccess } from "../util/error";
 import axios from "axios";
 
 function Login() {
+  const host =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3030"
+      : "https://taskify-notes-task.vercel.app";
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -33,7 +37,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        "https://taskify-gcxc.onrender.com/user/login",
+        `$${host}/user/login`,
         userData,
       );
 

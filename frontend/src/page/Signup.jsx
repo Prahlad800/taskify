@@ -10,6 +10,10 @@ import { handleError, handleSuccess } from "../util/error";
 import axios from "axios";
 
 function Signup() {
+  const host =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3030"
+      : "https://taskify-notes-task.vercel.app";
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
@@ -35,11 +39,11 @@ function Signup() {
     }
     try {
       const res = await axios.post(
-        "https://taskify-gcxc.onrender.com/user/signup",
+        `${host}/user/signup`,
         userData,
       );
       const { jwtToken, users } = res.data;
-        
+
       if (res.data.success) {
         localStorage.setItem("token", jwtToken);
         localStorage.setItem("loggedInUserName", users.user_name);
@@ -56,7 +60,6 @@ function Signup() {
       // console.log(err);
       handleError(err);
     }
-   
   };
 
   return (
