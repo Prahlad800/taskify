@@ -1,0 +1,28 @@
+
+.contener-note-body{
+    width: 96%;
+    height: 80vh; 
+    /* padding: 10px; */
+    /* border: 1px solid black; */
+    margin-top: 10px;
+    /* background: #0f172ad3; 
+    border-radius: 40px; */
+    display: flex;
+    gap: 10px;
+}
+
+.contener-note-slider{
+    width: 30%;
+    height: 80vh;
+    border-radius:40px;
+    background: #0f172a; 
+    border:1px solid aqua;
+}
+.contener-note-content{
+    width: 70%;
+    height: 80vh;
+    border-radius:40px;
+    background: #0f172a; 
+    border:1px solid aqua;
+
+}

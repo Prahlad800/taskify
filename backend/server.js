@@ -16,8 +16,12 @@ const port =process.env.PORT
 
 app.use(bodyParser.json())
 app.use(cors({
-    origin: "https://taskify-gcxc.onrender.com" || "http://localhost:5173"
-}))
+  origin: [
+    "http://localhost:5173",
+    "https://taskify-gcxc.onrender.com"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.get ("/j",(req,res)=>{
@@ -29,7 +33,7 @@ app.get("/",(req,res)=>{
     res.send("hello server ")
 })
 app.use("/user",userRouter)
-app.use("/notes",notesRouter)
+app.use("/home",notesRouter)
 
 
 

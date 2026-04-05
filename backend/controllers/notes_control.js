@@ -45,7 +45,7 @@ export const update_content = async (req, res) => {
         const note = await Note.findOneAndUpdate(
             { _id: id, user: req.user._id }, // ✅ filter
             { content: content },            // ✅ update
-             { returnDocument: 'after' }                   // ✅ options
+            { returnDocument: 'after' }                   // ✅ options
         );
 
         if (!note) {
@@ -70,20 +70,39 @@ export const update_content = async (req, res) => {
 };
 
 export const delete_note = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    await Note.findByIdAndDelete(id);
+        await Note.findByIdAndDelete(id);
 
-    res.json({
-      success: true,
-      message: "Note deleted",
-    });
+        res.json({
+            success: true,
+            message: "Note deleted",
+        });
 
-  } catch (e) {
-    res.status(500).json({
-      message: `server error ${e}`,
-      success: false,
-    });
-  }
+    } catch (e) {
+        res.status(500).json({
+            message: `server error ${e}`,
+            success: false,
+        });
+    }
 };
+
+export const show_title = async (req, res) => {
+    try {
+        const title_list = await Note.find({  user: req.user._id }, "title")
+        console.log(title_list)
+        res.status(200)
+            .json({
+                success: true,
+                data: title_list,
+            })
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+
+}

@@ -37,7 +37,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        `$${host}/user/login`,
+        `${host}/user/login`,
         userData,
       );
 
