@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Navbar_home from "../components/home/Navbar_home";
-import Footer_home from "../components/home/footer_home";
+import Bottome_home from "../components/home/Bottome_home";
 import "../components/home/home.css";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
@@ -76,7 +76,7 @@ function Home() {
           </div>
           <div className="contener-note-content"></div>
         </div>
-        <Footer_home />
+        <Bottome_home/>
       </div>
       <ToastContainer />
     </>
