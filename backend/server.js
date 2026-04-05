@@ -14,10 +14,17 @@ connectDB()
 const app = express()
 const port =process.env.PORT
 
-app.use(bodyParser.json())
-app.use(cors({
-  origin: "https://taskify-gcxc.onrender.com"
+// app.use(bodyParser.json())
+// app.use(cors({
+//   origin: "https://taskify-gcxc.onrender.com " || "localhost:3000" //http://localhost:5173/
  
+// }));
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://taskify-notes-task.vercel.app"
+  ],
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());

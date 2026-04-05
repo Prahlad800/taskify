@@ -8,6 +8,10 @@ import { ToastContainer } from "react-toastify";
 import { handleError,  } from "../util/error";
 
 function Home() {
+  const baseURL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3030"
+    : "https://taskify-gcxc.onrender.com";
   const [loggedInUserName, setLoggedInUserName] = useState("");
   const [loggedInName, setLoggedInName] = useState("");
 
@@ -23,7 +27,7 @@ function Home() {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("https://taskify-notes-task.vercel.app/home", {
+        const res = await axios.get(`${baseURL}/home`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +41,7 @@ function Home() {
       }
     };
     title_show();
-  }, []);
+  },[]);
 
   return (
     <>
