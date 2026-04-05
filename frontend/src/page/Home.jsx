@@ -5,7 +5,7 @@ import Footer_home from "../components/home/footer_home";
 import "../components/home/home.css";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
-import { handleError, handleSuccess } from "../util/error";
+import { handleError,  } from "../util/error";
 
 function Home() {
   const [loggedInUserName, setLoggedInUserName] = useState("");
@@ -18,15 +18,12 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    const host =
-    window.location.hostname === "localhost"
-      ? "http://localhost:3030"
-      : "https://taskify-notes-task.vercel.app";
+   
     const title_show = async () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(`${host}/home`, {
+        const res = await axios.get("https://taskify-notes-task.vercel.app/home", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
