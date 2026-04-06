@@ -1,10 +1,10 @@
 
 .container-main {
-  height: 100vh;
+  height: 85vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -50px;
+  margin-top: 0px;
   /* background-color: #060010; */
 }
 
@@ -13,7 +13,7 @@
   display: flex;
   width: 95%;
 
-  height: 600px;
+  height: 580px;
   background: #0f172a;
   border-radius: 30px;
   overflow: hidden;

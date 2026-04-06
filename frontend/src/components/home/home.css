@@ -1,16 +1,16 @@
 /* MAIN BODY LAYOUT */
 .contener-note-body {
   width: 96%;
-  height: 80vh;
-  margin-top: 10px;
+  height: 90vh;
+  margin-top: 5px;
   display: flex;
-  gap: 10px;
+  gap: 3px;
 }
 
 /* LEFT SIDEBAR */
 .contener-note-slider {
   width: 30%;
-  height: 80vh;
+  height: 85vh;
   border-radius: 40px;
   background: #0f172a;
   border: 1px solid aqua;
@@ -23,7 +23,7 @@
 /* RIGHT CONTENT */
 .contener-note-content {
   width: 70%;
-  height: 80vh;
+  height: 85vh;
   border-radius: 40px;
   background: #0f172a;
   border: 1px solid aqua;
@@ -269,4 +269,123 @@
   color: gray;
   text-align: center;
   margin-top: 50px;
+}
+
+/* ================= RIGHT EDITOR CONTAINER ================= */
+.contener-note-content-input {
+  width: 100%;
+  height: 100%;
+  
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 40px;
+ 
+}
+
+
+/* EDITOR BOX */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 5px;
+}
+
+
+/* TITLE */
+/* .editor-container h2 {
+  color: aqua;
+  font-size: 22px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,255,255,0.2);
+  padding-bottom: 10px;
+} */
+
+/* TEXTAREA */
+.editor-textarea {
+  flex: 1;
+  width: 96%;
+  border-radius: 35px;
+  border: 1px solid rgba(0,255,255,0.2);
+  background: #020617;
+  padding: 15px;
+  font-size: 15px;
+  margin: 4px;
+  color: #e2e8f0;
+  outline: none;
+  resize: none;
+  transition: 0.3s ease;
+}
+.editor-textarea {
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.editor-textarea::-webkit-scrollbar {
+  display: none;
+}
+/* TEXTAREA FOCUS */
+.editor-textarea:focus {
+  border: 1px solid rgba(0, 255, 255, 0.533);
+  box-shadow: 0 0 5px rgba(0,255,255,0.3);
+}
+.save-btn-div{
+  display: flex;
+  justify-content: center;
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  align-self: flex-end;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(45deg, aqua, #00ffff88);
+  color: #0f172a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  
+}
+
+/* SAVE BUTTON HOVER */
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0,255,255,0.4);
+}
+
+/* EMPTY STATE */
+.empty-editor {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-editor p {
+  color: #64748b;
+  font-size: 16px;
+  border: 1px dashed rgba(0,255,255,0.2);
+  padding: 20px 30px;
+  border-radius: 20px;
+}
+.show_time_main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 28px;
+  gap: 10px;
+}
+
+
+.show_time{
+  width: 95%;
+  height: 30px;
+   /* border: 2px red solid; */
+   display: flex;
+   justify-content: space-between;
+   color: #b6b0b0;
+   
+
 }
