@@ -4,7 +4,7 @@ import { Note } from "../module/notes.js";
 export const create_title = async (req, res) => {
     try {
         const { title } = req.body;
-        console.log(req.body);
+
         if (!title) {
             return res.status(400)
                 .json({
@@ -48,12 +48,20 @@ export const update_content = async (req, res) => {
             { returnDocument: 'after' }                   // ✅ options
         );
 
+        // const note = await Note.findOne({
+        //     _id: id,
+        //     user: req.user._id
+        // });
+
         if (!note) {
             return res.status(404).json({
                 message: "Note not found",
                 success: false
             });
         }
+        note.content = content;
+
+        await note.save();
 
         res.status(200).json({
             message: "Note content updated",
@@ -90,8 +98,8 @@ export const delete_note = async (req, res) => {
 
 export const show_title = async (req, res) => {
     try {
-        const title_list = await Note.find({  user: req.user._id }, "title")
-        console.log(title_list)
+        const title_list = await Note.find({ user: req.user._id })
+        // console.log(title_list)
         res.status(200)
             .json({
                 success: true,
@@ -102,6 +110,34 @@ export const show_title = async (req, res) => {
         res.status(500).json({
             success: false,
             message: error.message,
+        });
+    }
+
+}
+
+export const show_content = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+
+        const show_content_text = await Note.findOne({
+            _id: id,
+            user: req.user._id
+        }).select("content");
+        // console.log(title_list)
+        res.status(200)
+            .json({
+                success: true,
+                data: show_content_text,
+            })
+
+
+
+
+    } catch (e) {
+        res.status(500).json({
+            message: `server error ${e}`,
+            success: false
         });
     }
 

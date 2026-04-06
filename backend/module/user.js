@@ -3,34 +3,33 @@ import mongoose from "mongoose";
 const useSchema = mongoose.Schema({
     name: {
         type: String,
-        requrid: true
+        required: true
     },
     email: {
         type: String,
-        requrid: true,
+        required: true,
         unique: true,
     },
     user_name: {
         type: String,
-        requrid: true,
+        required: true,
         // unique: true,
     },
     number: {
         
-        url: String,
-        public_id: String,
+       type:String,
     },
     avtar: {
         type: String,
     },
     password: {
         type: String,
-        requrid: true
+        required: true
     }
 
 },
     {
-        timestamp: true,
+        timestamps: true,
     }
 )
 
