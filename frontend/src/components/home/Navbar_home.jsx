@@ -25,7 +25,7 @@ function Navbar_home(props) {
       </div>
       <div className="contener-name">
         <h2 className="name">{props.loggedInUserName || "Guest"}</h2>
-        <div className="profile">profile</div>
+        <div className="profile"></div>
     </div>
       </div>
     </div>

@@ -12,11 +12,13 @@
   padding: 10px 10px;
   background: #0f172a; /* dark navy */
   color: white;
-  width: 95%;
-  margin-top:8px;
+  width: 100%;
+  margin-right:20px;
   height: 50px;
-  border-radius: 50px;
+  border-radius: 0px;
+  
   font-family: "Segoe UI", sans-serif;
+
 }
 
 /* Left side (logo + text) */
