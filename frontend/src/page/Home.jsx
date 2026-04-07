@@ -24,7 +24,9 @@ function Home() {
   //  const [data, setData] = useState(null);
 
   // UI STATE
+  const [notesLoading, setNotesLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopupDeleteNotes, setShowPopupDeleteNotes] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [activeTab, setActiveTab] = useState("notes");
 
@@ -33,15 +35,23 @@ function Home() {
 
   // FETCH NOTES
   const fetchNotes = async () => {
+    setNotesLoading(true);
     try {
+      // setNotesLoading(true)
       const res = await axios.get(`${baseURL}/home`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
+
       setNotes(res.data.data);
+
       // console.log(res.data.data)
     } catch (error) {
       handleError("Failed to fetch notes", error);
+    } finally {
+      setNotesLoading(false); // 🔥 ye ALWAYS chalega
     }
+    //   console.log("loading:", notesLoading);
+    // console.log("notes:", notes);
   };
 
   // ADD NOTE
@@ -112,6 +122,25 @@ function Home() {
       hour12: true,
     });
   };
+  // delete notes
+  const handleDeleteNote = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.delete(`${baseURL}/home/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.success) {
+        handleSuccess("Note deleted");
+        if (selectedNote && selectedNote._id === id) {
+          setSelectedNote(null);
+          setNoteContent("");
+        }
+        fetchNotes();
+      }
+    } catch (error) {
+      handleError("Failed to delete note", error);
+    }
+  };
 
   // LOAD USER + NOTES
   useEffect(() => {
@@ -174,8 +203,14 @@ function Home() {
             {/* NOTES LIST */}
             <div className="slider-notes-list">
               <p className="slider-note-main-notes">Notes</p>
+              <div class="line"></div>
 
-              {notes.length === 0 ? (
+              {notesLoading ? (
+                <div>
+                  <p className="loader">Loading notes...</p>
+                  <div className="spinner"></div>
+                </div>
+              ) : notes.length === 0 ? (
                 <p className="slider-note-not">No notes found</p>
               ) : (
                 <ul className="slider-note-ul">
@@ -210,8 +245,27 @@ function Home() {
                     <div className="show_time">
                       <h2>Title Name: {noteDetails.title}</h2>
 
-                      <button>Delete</button>
+                      <button
+                        className="delete_notes"
+                        onClick={() => setShowPopupDeleteNotes(true)}
+                      >
+                        Delete
+                      </button>
                     </div>
+                    {showPopupDeleteNotes && (
+                      <div className="popup-overlay">
+                        <div className="popup-box">
+                          <h3 className="delete_note_text">Are you sure you want to delete this note?</h3>
+                          
+                          <div className="popup-buttons">
+                            <button onClick={() => setShowPopupDeleteNotes(false)}>
+                              Cancel
+                            </button>
+                            <button onClick={() => handleDeleteNote(noteDetails._id)}>Delete Notes</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="show_time">
                       <p>
                         Created At:
@@ -225,17 +279,18 @@ function Home() {
                     </div>
                   </div>
 
+                  <div className="save-btn-div">
+                    <button className="save-btn" onClick={handleSaveContent}>
+                      Save Content
+                    </button>
+                  </div>
+
                   <textarea
                     className="editor-textarea"
                     value={noteContent}
                     onChange={(e) => setNoteContent(e.target.value)}
                     placeholder="Write your note..."
                   />
-                  <div className="save-btn-div">
-                    <button className="save-btn" onClick={handleSaveContent}>
-                      Save Content
-                    </button>
-                  </div>
                 </div>
               ) : (
                 <div className="empty-editor">
