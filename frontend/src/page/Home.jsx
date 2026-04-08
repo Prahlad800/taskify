@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar_home from "../components/home/Navbar_home";
 import Bottome_home from "../components/home/Bottome_home";
 import "../components/home/home.css";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../util/error";
@@ -158,9 +159,9 @@ function Home() {
 
       <div className="hello">
         <div className="contener-note-body">
-          {/* LEFT PANEL */}
+          
           <div className="contener-note-slider">
-            {/* TAB BUTTONS */}
+            
             <div className="slider-button">
               <button
                 className={`silider-button-notes ${activeTab === "notes" ? "active" : ""}`}
@@ -168,15 +169,17 @@ function Home() {
               >
                 Notes
               </button>
-              <button
-                className={`slider-button-signup ${activeTab === "tasks" ? "active" : ""}`}
+              <Link
+                to={"/task"}
+                className={`slider-button-signup link ${activeTab === "tasks" ? "active" : ""}`}
                 onClick={() => setActiveTab("tasks")}
               >
                 Tasks
-              </button>
+              </Link>
             </div>
 
-            {/* ADD NOTE */}
+            
+            
             <div className="slider-add-notes">
               <button onClick={() => setShowPopup(true)}>Add Notes</button>
             </div>
@@ -255,13 +258,21 @@ function Home() {
                     {showPopupDeleteNotes && (
                       <div className="popup-overlay">
                         <div className="popup-box">
-                          <h3 className="delete_note_text">Are you sure you want to delete this note?</h3>
-                          
+                          <h3 className="delete_note_text">
+                            Are you sure you want to delete this note?
+                          </h3>
+
                           <div className="popup-buttons">
-                            <button onClick={() => setShowPopupDeleteNotes(false)}>
+                            <button
+                              onClick={() => setShowPopupDeleteNotes(false)}
+                            >
                               Cancel
                             </button>
-                            <button onClick={() => handleDeleteNote(noteDetails._id)}>Delete Notes</button>
+                            <button
+                              onClick={() => handleDeleteNote(noteDetails._id)}
+                            >
+                              Delete Notes
+                            </button>
                           </div>
                         </div>
                       </div>
