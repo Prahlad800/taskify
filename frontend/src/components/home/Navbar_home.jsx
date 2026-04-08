@@ -10,7 +10,7 @@ function Navbar_home(props) {
   else greatign = "Good Night";
   // console.log(h)
   
-const baseURL = () => {
+const baseURL11 = () => {
   return window.location.hostname === "localhost"
     ? "http://localhost:5173"
     : "https://taskify-notes-task.vercel.app";
@@ -20,7 +20,7 @@ const baseURL = () => {
     <div className="hello">
       <div className="contener-main">
         
-          <div className="contener-img" onClick={() => (window.location.href = baseURL())}>
+          <div className="contener-img" onClick={() => (window.location.href = baseURL11())}>
             
             <img src="/taskify-logo.png" alt="taskify logo" className="logo" />
             <img src="/taskify-text1.png" alt="taskify text" className="text" />
