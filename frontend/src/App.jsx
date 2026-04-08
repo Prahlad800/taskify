@@ -5,6 +5,7 @@ import Home from './page/Home'
 import Login from './page/Login'
 import Signup from './page/Signup'
 import Refresh from './util/Refresh'
+import Task from './page/Task'
 import './App.css'
 //Routes, Route
 const PrivateRoute = ({ children, isAuth }) => {
@@ -24,6 +25,14 @@ function App() {
           element={
             <PrivateRoute isAuth={isAuth}>
               <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/task"
+          element={
+            <PrivateRoute isAuth={isAuth}>
+              <Task />
             </PrivateRoute>
           }
         />
