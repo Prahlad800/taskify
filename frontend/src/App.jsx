@@ -18,7 +18,7 @@ function App() {
     <div>
       <Refresh setIsAuth={setIsAuth}/>
       <Routes>
-        <Route path='/' element={<Navigate to={"login"} />}/>
+        <Route path='/' element={<Navigate to={"login"} replace />}/>
         <Route
           path="/home"
           element={
