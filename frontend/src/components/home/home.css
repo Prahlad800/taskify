@@ -70,9 +70,12 @@
   border: 1px solid aqua;
 }
 .active{
-  background: aqua; 
-  
+  background: aqua;
   color: #0f172a;
+  
+}
+.active span{
+  color:black;
 }
 
 /* HOVER */

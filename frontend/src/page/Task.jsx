@@ -11,7 +11,7 @@ function Task() {
   const [loggedInUserName, setLoggedInUserName] = useState("");
   const [loggedInName, setLoggedInName] = useState("");
 
-  const [activeTab, setActiveTab] = useState("notes");
+  const [activeTab, setActiveTab] = useState("tasks");
 
   useEffect(() => {
     setLoggedInUserName(localStorage.getItem("loggedInUserName") || "");
@@ -28,18 +28,21 @@ function Task() {
         <div className="contener-note-body">
           <div className="contener-note-slider">
             <div className="slider-button">
-              <button
-                className={`silider-button-notes ${activeTab === "notes" ? "active" : ""}`}
+             
+              <Link
+                to={"/home"}
+                className={`slider-button-signup link ${activeTab === "notes" ? "active" : ""}`}
                 onClick={() => setActiveTab("notes")}
               >
-                Notes
-              </button>
+                <span>Notes</span> 
+              </Link>
               <Link
                 to={"/task"}
                 className={`slider-button-signup link ${activeTab === "tasks" ? "active" : ""}`}
                 onClick={() => setActiveTab("tasks")}
               >
-                Tasks
+                 <span>Tasks</span> 
+                
               </Link>
             </div>
 

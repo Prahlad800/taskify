@@ -3,6 +3,7 @@ import Navbar_home from "../components/home/Navbar_home";
 import Bottome_home from "../components/home/Bottome_home";
 import "../components/home/home.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../util/error";
@@ -12,6 +13,7 @@ function Home() {
     window.location.hostname === "localhost"
       ? "http://localhost:3030"
       : "https://taskify-gcxc.onrender.com";
+      const navigate = useNavigate();
 
   // USER INFO
   const [loggedInUserName, setLoggedInUserName] = useState("");
@@ -47,6 +49,17 @@ function Home() {
 
       // console.log(res.data.data)
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        handleError("Token expired or invalid",error);
+
+        // ❌ remove token
+        localStorage.removeItem("token");
+
+        // 🔁 redirect using react router
+        navigate("/login");
+      } else {
+        handleError("Failed to fetch notes", error);
+      }
       handleError("Failed to fetch notes", error);
     } finally {
       setNotesLoading(false); // 🔥 ye ALWAYS chalega
@@ -159,9 +172,7 @@ function Home() {
 
       <div className="hello">
         <div className="contener-note-body">
-          
           <div className="contener-note-slider">
-            
             <div className="slider-button">
               <button
                 className={`silider-button-notes ${activeTab === "notes" ? "active" : ""}`}
@@ -178,8 +189,6 @@ function Home() {
               </Link>
             </div>
 
-            
-            
             <div className="slider-add-notes">
               <button onClick={() => setShowPopup(true)}>Add Notes</button>
             </div>
