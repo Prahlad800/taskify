@@ -9,13 +9,35 @@ const todoSchema = new mongoose.Schema({
   },
 
   task: [{
-    type: String,
-    default: ""
+    text: {
+      type: String,
+      default: ""
+    },
+
+    completed_todo: {
+      type: Boolean,
+      default: false
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    }
   }],
 
-  completed: {
+  completed_task: {
     type: Boolean,
     default: false
+  },
+
+  completedAt: {
+    type: Date,
+    default: null
   },
 
   priority: {
@@ -29,11 +51,10 @@ const todoSchema = new mongoose.Schema({
   },
 
   user: {
-   type: mongoose.Schema.Types.ObjectId,
-   ref:"User",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true
   }
 
 }, { timestamps: true });
-
-export const Todo = mongoose.model("Todo", todoSchema);
+ export const Todo = mongoose.model("Todo", todoSchema);

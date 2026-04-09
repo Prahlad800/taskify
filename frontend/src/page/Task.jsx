@@ -5,17 +5,47 @@ import Bottome_home from "../components/home/Bottome_home";
 import "../components/home/home.css";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import axios from "axios";
 import { handleError, handleSuccess } from "../util/error";
 
 function Task() {
   const [loggedInUserName, setLoggedInUserName] = useState("");
   const [loggedInName, setLoggedInName] = useState("");
+  const [taskLoading, setTaskLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState("tasks");
+  const [task, setTask] = useState([]);
+    const getToken = () => localStorage.getItem("token");
+   const baseURL =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3030"
+      : "https://taskify-gcxc.onrender.com";
+  // FETCH NOTES
+    const fetchNotes = async () => {
+      setTaskLoading(true);
+      try {
+        // setNotesLoading(true)
+        const res = await axios.get(`${baseURL}/task`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
+  
+        setTask(res.data.data);
+  
+         console.log(res.data.data)
+      } catch (error) {
+        
+        handleError("Failed to fetch notes", error);
+      } finally {
+        setTaskLoading(false); // 🔥 ye ALWAYS chalega
+      }
+      //   console.log("loading:", notesLoading);
+      // console.log("notes:", notes);
+    };
 
   useEffect(() => {
     setLoggedInUserName(localStorage.getItem("loggedInUserName") || "");
     setLoggedInName(localStorage.getItem("loggedInName") || "");
+    fetchNotes()
   }, []);
 
   return (
@@ -28,41 +58,72 @@ function Task() {
         <div className="contener-note-body">
           <div className="contener-note-slider">
             <div className="slider-button">
-             
               <Link
                 to={"/home"}
                 className={`slider-button-signup link ${activeTab === "notes" ? "active" : ""}`}
                 onClick={() => setActiveTab("notes")}
               >
-                <span>Notes</span> 
+                <span>Notes</span>
               </Link>
               <Link
                 to={"/task"}
                 className={`slider-button-signup link ${activeTab === "tasks" ? "active" : ""}`}
                 onClick={() => setActiveTab("tasks")}
               >
-                 <span>Tasks</span> 
-                
+                <span>Tasks</span>
               </Link>
             </div>
-            
 
             <div className="slider-add-notes">
-              <button>Add Task</button>
-               <div class="line1"></div>
-               <div className="slider-add-notes"><p>task note</p></div>
-               <div className="slider-add-notes"><p>task note</p></div>
-               <div className="slider-add-notes"><p>task note</p></div>
+              <button className="slider-add-notes_btm">Add Task</button>
+              <div class="line1"></div>
+              <div className="slider-add-notes_btm1">
+                <p>Open Task </p>
+              </div>
+              <div className="slider-add-notes_btm1">
+                <p>compleate Todo</p>
+              </div>
+              <div className="slider-add-notes_btm1">
+                <p>Importance Todo</p>
+              </div>
             </div>
-            
 
             <div className="slider-notes-list">
-              <p className="slider-note-main-notes">Task</p>
+              <p className="slider-note-main-notes">All Task</p>
               <div class="line"></div>
+               {taskLoading ? (
+                <div>
+                  <p className="loader">Loading notes...</p>
+                  <div className="spinner"></div>
+                </div>
+              ) : task.length === 0 ? (
+                <p className="slider-note-not">No notes found</p>
+              ) : (
+                <ul className="slider-note-ul">
+                  {task.map((note) => (
+                    <li
+                      key={note._id}
+                      className="slider-note-ls"
+                      
+                      // onClick={() => {
+                      //   handleNoteClick(note._id);
+                      //   setNoteDetails(note);
+                      // }}
+                    >
+                      <span>{note.title}</span>
+                      <span>⋮</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 
-          <div className="contener-note-content"></div>
+          <div className="contener-note-content">
+            <div>hello</div>
+            <div class="line"></div>
+            <div></div>
+          </div>
         </div>
       </div>
 

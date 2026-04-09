@@ -13,7 +13,7 @@ function Home() {
     window.location.hostname === "localhost"
       ? "http://localhost:3030"
       : "https://taskify-gcxc.onrender.com";
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // USER INFO
   const [loggedInUserName, setLoggedInUserName] = useState("");
@@ -50,7 +50,7 @@ function Home() {
       // console.log(res.data.data)
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        handleError("Token expired or invalid",error);
+        handleError("Token expired or invalid", error);
 
         // ❌ remove token
         localStorage.removeItem("token");
@@ -190,7 +190,12 @@ function Home() {
             </div>
 
             <div className="slider-add-notes">
-              <button onClick={() => setShowPopup(true)}>Add Notes</button>
+              <button
+                onClick={() => setShowPopup(true)}
+                className="slider-add-notes_btm"
+              >
+                Add Notes
+              </button>
             </div>
 
             {/* POPUP */}
@@ -230,10 +235,7 @@ function Home() {
                     <li
                       key={note._id}
                       className="slider-note-ls"
-                      // onClick={() => {
-                      //   setSelectedNote(note);
-                      //   setNoteContent(note.content || "");
-                      // }}
+                      
                       onClick={() => {
                         handleNoteClick(note._id);
                         setNoteDetails(note);
