@@ -45,10 +45,16 @@ function Task() {
                 
               </Link>
             </div>
+            
 
             <div className="slider-add-notes">
               <button>Add Task</button>
+               <div class="line1"></div>
+               <div className="slider-add-notes"><p>task note</p></div>
+               <div className="slider-add-notes"><p>task note</p></div>
+               <div className="slider-add-notes"><p>task note</p></div>
             </div>
+            
 
             <div className="slider-notes-list">
               <p className="slider-note-main-notes">Task</p>

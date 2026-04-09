@@ -5,6 +5,7 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import userRouter from "./router/user_router.js"
 import notesRouter from "./router/notes_router.js"
+import taskRouter from "./router/task_router.js"
 import cors from "cors"
 
 
@@ -38,6 +39,7 @@ app.get("/",(req,res)=>{
 })
 app.use("/user",userRouter)
 app.use("/home",notesRouter)
+app.use("/task",taskRouter)
 
 
 
