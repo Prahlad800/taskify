@@ -205,6 +205,7 @@ function Home() {
                   <h3>Add New Note</h3>
                   <input
                     type="text"
+                    className="popup_box_data"
                     placeholder="Enter title..."
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
@@ -221,6 +222,7 @@ function Home() {
             <div className="slider-notes-list">
               <p className="slider-note-main-notes">Notes</p>
               <div class="line"></div>
+              <div className="scrolbar_web">
 
               {notesLoading ? (
                 <div>
@@ -247,6 +249,7 @@ function Home() {
                   ))}
                 </ul>
               )}
+              </div>
             </div>
           </div>
 

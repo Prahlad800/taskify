@@ -13,6 +13,10 @@ const todoSchema = new mongoose.Schema({
       type: String,
       default: ""
     },
+    impotent:{
+      type: Boolean,
+      default: false
+    },
 
     completed_todo: {
       type: Boolean,

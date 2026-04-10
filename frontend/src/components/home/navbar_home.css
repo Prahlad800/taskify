@@ -88,3 +88,55 @@
   background: #0ea5e9;
   transform: scale(1.1);
 }
+/* Parent ko relative banana zaroori hai */
+.contener-name {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative; /* IMPORTANT */
+}
+
+/* Profile box (dropdown) */
+.profile-box {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 10px;
+  width: 140px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 1000;
+}
+
+/* Button styling */
+.logout-btn {
+  width: 100%;
+  padding: 8px;
+  background: #ef4444;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Hover */
+.logout-btn:hover {
+  background: #dc2626;
+  transform: scale(1.03);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

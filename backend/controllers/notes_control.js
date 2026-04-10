@@ -81,7 +81,10 @@ export const delete_note = async (req, res) => {
     try {
         const { id } = req.params;
 
-        await Note.findByIdAndDelete(id);
+        await Note.findByIdAndDelete({
+             _id: id,
+            user: req.user._id 
+        });
 
         res.json({
             success: true,
