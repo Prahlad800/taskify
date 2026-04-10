@@ -263,7 +263,7 @@
 }
 
 /* INPUT */
-.popup-box input {
+.popup-box .popup_box_data {
   width: 90%;
   padding: 10px;
   margin: 15px 0;
@@ -273,6 +273,19 @@
   background: transparent;
   color: white;
 }
+.popup_box_data option {
+  background-color: #0f172a;
+  color: white;
+  padding: 10px;
+}
+.popup_box_data option:hover {
+  background-color: aqua;
+  color: black;
+}
+.popup_heder{
+  color: white;
+}
+
 
 /* BUTTONS */
 .popup-buttons {
@@ -487,9 +500,31 @@
   animation: spin 1s linear infinite;
   margin: 20px auto;
 }
+.scrolbar_web{
+  overflow: scroll;
+  scrollbar-width: none;
+}
 
 @keyframes spin {
   100% {
     transform: rotate(360deg);
   }
 }
+
+
+/* --------task page-------------------- */
+.priority-low {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.priority-medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.priority-high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+

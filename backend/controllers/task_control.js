@@ -1,7 +1,7 @@
 import { Todo } from "../module/todo.js"
 export const create_task_title = async (req, res) => {
     try {
-        const { title } = req.body;
+        const { title ,priority} = req.body;
 
         if (!title) {
             return res.status(400)
@@ -10,7 +10,7 @@ export const create_task_title = async (req, res) => {
                     success: false,
                 })
         }
-        const task = await Todo.create({ title, user: req.user._id, })
+        const task = await Todo.create({ title, priority , user: req.user._id, })
 
         res.status(201).json({
             message: "task created",
@@ -90,6 +90,34 @@ export const update_task_content = async (req, res) => {
         res.status(500).json({
             message: `server error ${e}`,
             success: false
+        });
+    }
+};
+
+export const delete_task_note = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+       const todo = await Todo.findByIdAndDelete({
+             _id: id,
+            user: req.user._id 
+        });
+         if (!todo) {
+            return res.status(404).json({
+                success: false,
+                message: "Task not found or unauthorized",
+            });
+        }
+
+         res.status(200).json({
+            success: true,
+            message: "Task deleted successfully",
+        });
+
+    } catch (e) {
+        res.status(500).json({
+            message: `server error ${e}`,
+            success: false,
         });
     }
 };
