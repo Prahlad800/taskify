@@ -1,8 +1,12 @@
+import {setTaskReminder} from "../controllers/task_reminder.js";
+import {renameTask} from "../controllers/title_control.js";
 import { Router } from "express";
 import { auth_notes_page } from "../middleware/auth_notes.js";
 import { create_task_title,show_task_title,update_task_content,delete_task,show_task ,update_task_item} from "../controllers/task_control.js";
 
 const router =Router()
+router.patch("/:id/title",auth_notes_page,renameTask);
+router.patch("/:id/reminder",auth_notes_page,setTaskReminder);
 
  router.post("/",auth_notes_page,create_task_title)
  router.get("/",auth_notes_page,show_task_title)

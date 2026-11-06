@@ -1,0 +1,7 @@
+import jwt from 'jsonwebtoken';
+import {createSignupService} from '../services/signup_otp.js';
+const service=createSignupService();
+const handleError=(res,e)=>{if(e.retryAfter)res.set('Retry-After',String(e.retryAfter));return res.status(e.status||500).json({success:false,message:e.status?e.message:'Signup is temporarily unavailable. Please try again.',...(e.retryAfter?{retryAfter:e.retryAfter}:{})});};
+export async function signup(req,res){try{const result=await service.request(req.body);return res.status(202).json({success:true,verificationRequired:true,message:'Verification code sent to your email.',...result});}catch(e){return handleError(res,e);}}
+export async function resendSignupOtp(req,res){try{const result=await service.resend(req.body);return res.status(202).json({success:true,verificationRequired:true,message:'A new verification code has been sent.',...result});}catch(e){return handleError(res,e);}}
+export async function verifySignupOtp(req,res){try{const user=await service.verify(req.body);const jwtToken=jwt.sign({email:user.email,_id:user._id,user_name:user.user_name},process.env.JWT_KEY,{expiresIn:'24h'});res.cookie('token',jwtToken,{httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:process.env.NODE_ENV==='production'?'none':'lax',maxAge:86400000});return res.status(201).json({success:true,message:'Email verified. Your account is ready.',jwtToken,users:{name:user.name,email:user.email,user_name:user.user_name}});}catch(e){return handleError(res,e);}}

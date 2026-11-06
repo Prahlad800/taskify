@@ -1,10 +1,14 @@
-import { Router } from "express";
-import { auth_sigup,auth_login } from "../middleware/auth_user.js";
-import { signup,login } from "../controllers/user_control.js";
-
- const router =Router()
-
-router.post("/signup",auth_sigup,signup)
-router.post("/login",auth_login,login)
-
-export default router
+import {Router} from 'express';
+import {rateLimit,ipKeyGenerator} from 'express-rate-limit';
+import {auth_sigup,auth_login,auth_verify_signup,auth_resend_signup} from '../middleware/auth_user.js';
+import {login} from '../controllers/user_control.js';
+import {signup,verifySignupOtp,resendSignupOtp} from '../controllers/signup_control.js';
+const router=Router();
+const clientKey=req=>String(ipKeyGenerator(req.ip||req.socket?.remoteAddress||'127.0.0.1'));
+const sendLimit=rateLimit({keyGenerator:clientKey,windowMs:15*60*1000,limit:10,standardHeaders:'draft-7',legacyHeaders:false,message:{success:false,message:'Too many code requests. Try again in 15 minutes.'}});
+const verifyLimit=rateLimit({keyGenerator:clientKey,windowMs:15*60*1000,limit:30,standardHeaders:'draft-7',legacyHeaders:false,message:{success:false,message:'Too many verification attempts. Try again later.'}});
+router.post('/signup',sendLimit,auth_sigup,signup);
+router.post('/signup/resend-otp',sendLimit,auth_resend_signup,resendSignupOtp);
+router.post('/signup/verify-otp',verifyLimit,auth_verify_signup,verifySignupOtp);
+router.post('/login',auth_login,login);
+export default router;

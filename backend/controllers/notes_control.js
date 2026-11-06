@@ -1,18 +1,14 @@
+import {defaultTitle} from "../services/default_title.js";
 import { Note } from "../module/notes.js";
 
 
 export const create_title = async (req, res) => {
     try {
-        const { title } = req.body;
-
-        if (!title) {
-            return res.status(400)
-                .json({
-                    message: "Title required",
-                    success: false,
-                })
-        }
-        const note = await Note.create({ title, user: req.user._id, })
+        const {title,collection='notes'}=req.body;
+        if(title!==undefined&&typeof title!=='string')return res.status(400).json({success:false,message:'Title must be text'});
+        if((title||'').trim().length>200)return res.status(400).json({success:false,message:'Title must be at most 200 characters'});
+        if(!['notes','favorites','reminders','archive'].includes(collection))return res.status(400).json({success:false,message:'Invalid note collection'});
+        const note=await Note.create({title:(title||'').trim()||defaultTitle(),user:req.user._id,pinned:collection==='favorites',archivedAt:collection==='archive'?new Date():null,reminderAt:collection==='reminders'?new Date():null});
 
         res.status(201).json({
             message: "Note created",
@@ -35,9 +31,9 @@ export const update_content = async (req, res) => {
         const { id } = req.params;
         const { content } = req.body;
 
-        if (!content) {
+        if (typeof content !== "string") {
             return res.status(400).json({
-                message: "content required",
+                message: "content must be a string",
                 success: false,
             });
         }
@@ -59,9 +55,7 @@ export const update_content = async (req, res) => {
                 success: false
             });
         }
-        note.content = content;
 
-        await note.save();
 
         res.status(200).json({
             message: "Note content updated",
@@ -81,10 +75,11 @@ export const delete_note = async (req, res) => {
     try {
         const { id } = req.params;
 
-        await Note.findByIdAndDelete({
+        const deleted = await Note.findOneAndDelete({
              _id: id,
             user: req.user._id 
         });
+        if(!deleted)return res.status(404).json({success:false,message:"Note not found"});
 
         res.json({
             success: true,
@@ -101,7 +96,7 @@ export const delete_note = async (req, res) => {
 
 export const show_title = async (req, res) => {
     try {
-        const title_list = await Note.find({ user: req.user._id })
+        const title_list = await Note.find({ user: req.user._id }).sort({updatedAt:-1,_id:-1})
         // console.log(title_list)
         res.status(200)
             .json({
@@ -126,7 +121,8 @@ export const show_content = async (req, res) => {
         const show_content_text = await Note.findOne({
             _id: id,
             user: req.user._id
-        }).select("content");
+        });
+        if (!show_content_text) return res.status(404).json({success:false,message:"Note not found"});
         // console.log(title_list)
         res.status(200)
             .json({

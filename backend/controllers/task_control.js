@@ -1,16 +1,11 @@
+import {defaultTitle} from "../services/default_title.js";
 import { Todo } from "../module/todo.js"
 export const create_task_title = async (req, res) => {
     try {
-        const { title, priority } = req.body;
-
-        if (!title) {
-            return res.status(400)
-                .json({
-                    message: "Title required",
-                    success: false,
-                })
-        }
-        const task = await Todo.create({ title, priority, user: req.user._id, })
+        const {title,priority='medium'}=req.body;
+        if(title!==undefined&&typeof title!=='string')return res.status(400).json({success:false,message:'Title must be text'});
+        if((title||'').trim().length>200)return res.status(400).json({success:false,message:'Title must be at most 200 characters'});
+        const task=await Todo.create({title:(title||'').trim()||defaultTitle(),priority,user:req.user._id});
 
         res.status(201).json({
             message: "task created",
@@ -29,7 +24,7 @@ export const create_task_title = async (req, res) => {
 
 export const show_task_title = async (req, res) => {
     try {
-        const title_task_list = await Todo.find({ user: req.user._id })
+        const title_task_list = await Todo.find({ user: req.user._id }).sort({updatedAt:-1,_id:-1})
         // console.log(title_list)
         res.status(200)
             .json({
@@ -69,7 +64,7 @@ export const update_task_content = async (req, res) => {
                         createdAt: new Date(),
                     },
                 },
-            },{ new: true })
+            },{ returnDocument: 'after' })
 
 
         if (!todo) {
@@ -96,7 +91,7 @@ export const delete_task = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const todo = await Todo.findByIdAndDelete({
+        const todo = await Todo.findOneAndDelete({
             _id: id,
             user: req.user._id
         });

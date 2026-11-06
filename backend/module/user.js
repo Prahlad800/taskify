@@ -19,6 +19,7 @@ const useSchema = mongoose.Schema({
         
        type:String,
     },
+    emailVerifiedAt: { type: Date },
     avtar: {
         type: String,
     },

@@ -1,9 +1,13 @@
+import {organizeNote} from "../controllers/note_organizer.js";
+import {renameNote} from "../controllers/title_control.js";
 import { Router } from "express";
 import { auth_notes_page } from "../middleware/auth_notes.js";
 import { create_title,update_content ,delete_note ,show_title,show_content } from "../controllers/notes_control.js";
 
 
  const router =Router()
+router.patch("/:id/title",auth_notes_page,renameNote);
+router.patch("/:id/settings",auth_notes_page,organizeNote);
 
  router.post("/",auth_notes_page,create_title)
  router.put("/:id",auth_notes_page,update_content)

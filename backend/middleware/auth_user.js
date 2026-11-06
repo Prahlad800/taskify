@@ -3,7 +3,7 @@ import Joi from "joi";
 export const auth_sigup = (req, res, next) => {
     const schema = Joi.object({
         name: Joi.string().min(3).max(100).required(),
-        email: Joi.string().email().required(),
+        email: Joi.string().trim().lowercase().email().required(),
         user_name: Joi.string().min(4).max(20).required(),
         number: Joi.string()
             .pattern(/^[0-9]{10}$/)
@@ -23,7 +23,7 @@ export const auth_sigup = (req, res, next) => {
             }),
     });
 
-    const { error } = schema.validate(req.body);
+    const { error, value } = schema.validate(req.body);
 
     if (error) {
         return res.status(400).json({
@@ -32,6 +32,7 @@ export const auth_sigup = (req, res, next) => {
         });
     }
 
+    req.body = value;
     next();
 };
 export const auth_login = (req, res, next) => {
@@ -62,3 +63,7 @@ export const auth_login = (req, res, next) => {
 
     next();
 };
+const validateOtp=(schema)=>(req,res,next)=>{const {error,value}=schema.validate(req.body);if(error)return res.status(400).json({success:false,message:error.details[0].message});req.body=value;next();};
+const challengeFields={email:Joi.string().trim().lowercase().email().required(),challengeId:Joi.string().hex().length(48).required()};
+export const auth_verify_signup=validateOtp(Joi.object({...challengeFields,otp:Joi.string().pattern(/^[0-9]{6}$/).required()}));
+export const auth_resend_signup=validateOtp(Joi.object(challengeFields));

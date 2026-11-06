@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "backend-taskify",
+  "account_id": "3232000c63f4545e3997d332dfc91a46",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-11-06",
+  "workers_dev": true,
+  "durable_objects": {"bindings": [{"name": "BACKEND", "class_name": "TaskifyBackend"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["TaskifyBackend"]}],
+  "vars": {"NODE_ENV": "production"},
+  "observability": {"enabled": true}
+}

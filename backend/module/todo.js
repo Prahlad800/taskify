@@ -54,6 +54,7 @@ const todoSchema = new mongoose.Schema({
     type: Date
   },
 
+  reminderNotifiedAt: {type:Date,default:null},
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
