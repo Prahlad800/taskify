@@ -1,3 +1,12 @@
+import {API_BASE_URL} from '../util/api';
+import {useRealtimeEvent,mergeLiveItem} from "../components/RealtimeProvider";
+import InlineNoteTitle from "../components/InlineNoteTitle";
+import {newestUpdatedFirst,formatListDate} from "../util/listDates";
+import WorkspaceLayout from "../components/WorkspaceLayout";
+import WorkspaceNav from "../components/WorkspaceNav";
+import {useNavigate} from "react-router-dom";
+import ItemActions from "../components/ItemActions";
+import WorkspaceSidebar from "../components/WorkspaceSidebar";
 import React, { useState, useEffect } from "react";
 import Navbar_home from "../components/home/Navbar_home";
 import Bottome_home from "../components/home/Bottome_home";
@@ -8,12 +17,13 @@ import axios from "axios";
 import { handleError, handleSuccess } from "../util/error";
 
 function Task() {
+  const navigate=useNavigate();
+  const [search,setSearch]=useState('');
+  const [reminderTask,setReminderTask]=useState(null),[reminderDate,setReminderDate]=useState(''),[reminderSaving,setReminderSaving]=useState(false);
+  const navigateView=view=>navigate(view==='tasks'?'/task':view==='notes'?'/home':'/home?view='+view);
   const [loggedInUserName, setLoggedInUserName] = useState("");
   const [loggedInName, setLoggedInName] = useState("");
   const [taskLoading, setTaskLoading] = useState(false);
-  const [showPopupTask, setShowPopupTask] = useState(false);
-  const [newTitleTask, setNewTitleTask] = useState("");
-  const [priority, setPriority] = useState("medium");
   const [showPopupDeleteTask, setShowPopupDeleteTask] = useState(false);
 
   const [newTodoText, setNewTodoText] = useState("");
@@ -25,12 +35,9 @@ function Task() {
 
   const getToken = () => localStorage.getItem("token");
 
-  const baseURL =
-    window.location.hostname === "localhost"
-      ? "http://localhost:3030"
-      : "https://taskify-gcxc.onrender.com";
+  const baseURL = API_BASE_URL;
 
-  // 🔥 FETCH ALL TASK
+  // ðŸ”¥ FETCH ALL TASK
   const fetchNotes = async () => {
     setTaskLoading(true);
     try {
@@ -45,29 +52,10 @@ function Task() {
     }
   };
 
-  // 🔥 ADD TASK
-  const handleSaveTask = async () => {
-    if (!newTitleTask.trim()) return handleError("Title required");
+  // ðŸ”¥ ADD TASK
+  const [creating,setCreating]=useState(false);
+  const handleSaveTask=async()=>{if(creating)return;setCreating(true);try{const {data}=await axios.post(baseURL+'/task',{},{headers:{Authorization:'Bearer '+getToken()}});setTask(current=>[...current,data.data]);setSearch('');setSelectedTodo(data.data);setTodosAddTask(data.data.task||[]);}catch(error){handleError(error.response?.data?.message||'Could not create task.');}finally{setCreating(false)}};
 
-    try {
-      const res = await axios.post(
-        `${baseURL}/task`,
-        { title: newTitleTask, priority },
-        { headers: { Authorization: `Bearer ${getToken()}` } },
-      );
-
-      setTask((prev) => [...prev, res.data.data]);
-      setShowPopupTask(false);
-      setNewTitleTask("");
-      setPriority("medium");
-
-      handleSuccess("Task added");
-    } catch (error) {
-      handleError("Error adding task", error);
-    }
-  };
-
-  // 🔥 FETCH SINGLE TASK
   const handleTaskClick = async (id) => {
     try {
       const res = await axios.get(`${baseURL}/task/${id}`, {
@@ -82,7 +70,7 @@ function Task() {
     }
   };
 
-  // 🔥 ADD TODO TO DB
+  // ðŸ”¥ ADD TODO TO DB
   const addTodoToDB = async () => {
     try {
       const res = await axios.put(
@@ -98,6 +86,7 @@ function Task() {
       );
 
       setSelectedTodo(res.data.data);
+      setTask(current=>current.map(task=>task._id===res.data.data._id?res.data.data:task));
       setTodosAddTask(res.data.data.task);
       setNewTodoText("");
       // const tempTodo = {
@@ -134,18 +123,27 @@ function Task() {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
 
-      // 🔥 UI update (task list se remove)
+      // ðŸ”¥ UI update (task list se remove)
       setTask((prev) => prev.filter((t) => t._id !== id));
 
-      // 🔥 right side reset
-      setSelectedTodo(null);
+      // ðŸ”¥ right side reset
+      setSelectedTodo(current=>current?._id===id?null:current);
 
       handleSuccess("Task deleted");
+      return true;
     } catch (err) {
       console.log(err);
       handleError("Delete failed", err);
+      return false;
     }
   };
+
+  async function renameItem(id,title,silent=false){const {data}=await axios.patch(baseURL+'/task/'+id+'/title',{title},{headers:{Authorization:'Bearer '+getToken()}});setTask(current=>current.map(item=>item._id===id?{...item,...data.data}:item));setSelectedTodo(current=>current?._id===id?{...current,...data.data}:current);if(!silent)handleSuccess('Title updated');return data.data;}
+  useRealtimeEvent('task:changed',event=>{setTask(current=>mergeLiveItem(current,event));if(selectedTodo?._id===event.id){if(event.action==='delete'){setSelectedTodo(null);setTodosAddTask([]);}else if(!document.activeElement?.classList.contains('todo-text')){setSelectedTodo(event.item);setTodosAddTask(event.item.task||[]);}}});
+  useRealtimeEvent('realtime:ready',()=>fetchNotes());
+  async function updateReminder(id,dueDate){const {data}=await axios.patch(baseURL+'/task/'+id+'/reminder',{dueDate},{headers:{Authorization:'Bearer '+getToken()}});setTask(current=>current.map(item=>item._id===id?data.data:item));setSelectedTodo(current=>current?._id===id?data.data:current);}
+  async function saveReminder(event){event.preventDefault();setReminderSaving(true);try{await updateReminder(reminderTask._id,new Date(reminderDate).toISOString());setReminderTask(null);handleSuccess('Task reminder saved');}catch{handleError('Could not save task reminder');}finally{setReminderSaving(false)}}
+  function taskActions(item){return [{label:'Set reminder',onClick:()=>{setReminderTask(item);setReminderDate('')}},...(item.dueDate?[{label:'Remove reminder',onClick:()=>updateReminder(item._id,null).catch(()=>handleError('Could not remove reminder'))}]:[])];}
 
   useEffect(() => {
     setLoggedInUserName(localStorage.getItem("loggedInUserName") || "");
@@ -154,15 +152,15 @@ function Task() {
   }, []);
 
   return (
-    <div>
-      <Navbar_home
+    <div className="workspace-app">
+      <Navbar_home searchValue={search} onSearchChange={setSearch} searchLabel="Search tasks"
         loggedInUserName={loggedInUserName}
         loggedInName={loggedInName}
       />
 
       <div className="hello">
-        <div className="contener-note-body">
-          <div className="contener-note-slider">
+        <WorkspaceLayout><WorkspaceNav active="tasks" onNavigate={navigateView}/>
+          <WorkspaceSidebar title="Tasks" selectionKey={selectedTodo?._id} navigation={<WorkspaceNav compact active="tasks" onNavigate={navigateView}/>}>{(closeSidebar) => <>
             {/* NAV */}
             <div className="slider-button">
               <Link
@@ -183,65 +181,11 @@ function Task() {
             </div>
 
             {/* ADD TASK */}
-            <div className="slider-add-notes">
-              <button
-                className="slider-add-notes_btm"
-                onClick={() => setShowPopupTask(true)}
-              >
-                Add Task
-              </button>
-
-              {showPopupTask && (
-                <div className="popup-overlay">
-                  <div className="popup-box">
-                    <h3 className="popup_heder">Add New Task</h3>
-
-                    <input
-                      type="text"
-                      className="popup_box_data"
-                      placeholder="Enter title..."
-                      value={newTitleTask}
-                      onChange={(e) => setNewTitleTask(e.target.value)}
-                    />
-
-                    <h3 className="popup_heder">Choose Priority Task</h3>
-
-                    <select
-                      className="popup_box_data"
-                      value={priority}
-                      onChange={(e) => setPriority(e.target.value)}
-                    >
-                      <option value="medium">medium</option>
-                      <option value="low">low</option>
-                      <option value="high">high</option>
-                    </select>
-
-                    <div className="popup-buttons">
-                      <button onClick={() => setShowPopupTask(false)}>
-                        Cancel
-                      </button>
-                      <button onClick={handleSaveTask}>Save</button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div className="line1"></div>
-
-              <div className="slider-add-notes_btm1">
-                <p>Open Task</p>
-              </div>
-              <div className="slider-add-notes_btm1">
-                <p>compleate Todo</p>
-              </div>
-              <div className="slider-add-notes_btm1">
-                <p>Importance Todo</p>
-              </div>
-            </div>
+            <div className="slider-add-notes"><button type="button" className="slider-add-notes_btm" onClick={handleSaveTask} disabled={creating}>{creating?'Creating...':'+ New task'}</button></div>
 
             {/* TASK LIST */}
             <div className="slider-notes-list">
-              <p className="slider-note-main-notes">All Task</p>
+              <div className="collection-heading"><h2>My Tasks ({task.length})</h2></div>
               <div className="line"></div>
 
               <div className="scrolbar_web">
@@ -251,7 +195,7 @@ function Task() {
                   <p className="slider-note-not">No notes found</p>
                 ) : (
                   <ul className="slider-note-ul">
-                    {task.map((todo) => (
+                    {newestUpdatedFirst(task.filter(todo=>todo.title.toLowerCase().includes(search.toLowerCase()))).map((todo) => (
                       <li
                         key={todo._id}
                         className={`slider-note-ls ${
@@ -261,17 +205,17 @@ function Task() {
                               ? "priority-medium"
                               : "priority-high"
                         }`}
-                        onClick={() => handleTaskClick(todo._id)}
+                        onClick={() => {handleTaskClick(todo._id); closeSidebar();}}
                       >
-                        <span>{todo.title}</span>
-                        <span>⋮</span>
+                        <button type="button" className="note-open-button"><strong>{todo.title}</strong><span className="note-card-excerpt">{todo.priority} priority</span><time className="note-card-time" dateTime={todo.updatedAt||todo.createdAt}>Updated: {formatListDate(todo.updatedAt||todo.createdAt)}</time>{todo.dueDate&&<span className="note-card-time">Reminder: {formatListDate(todo.dueDate)}</span>}</button>
+                        <ItemActions actions={taskActions(todo)} title={todo.title} onRename={title=>renameItem(todo._id,title)} onDelete={()=>handleDeletetask(todo._id)}/>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
             </div>
-          </div>
+          </>}</WorkspaceSidebar>
 
           {/* RIGHT SIDE */}
           <div className="contener-note-content">
@@ -280,7 +224,7 @@ function Task() {
                 <div className="task-content-wrapper">
                   <div className="show_time_main">
                     <div className="show_time">
-                      <h2>Title Name: {selectedTodo.title}</h2>
+                      <InlineNoteTitle key={selectedTodo._id} title={selectedTodo.title} onSave={title=>renameItem(selectedTodo._id,title,true)}/>
                       <h2>Priority : {selectedTodo.priority}</h2>
 
                       <button
@@ -380,6 +324,7 @@ function Task() {
                               );
 
                               setSelectedTodo(res.data.data);
+      setTask(current=>current.map(task=>task._id===res.data.data._id?res.data.data:task));
                               setTodosAddTask(res.data.data.task);
                             } catch (err) {
                               console.log(err);
@@ -400,7 +345,7 @@ function Task() {
                           }}
                           onBlur={async () => {
                             try {
-                              await axios.put(
+                              const res = await axios.put(
                                 `${baseURL}/task/${selectedTodo._id}/${item._id}`,
                                 { text: item.text },
                                 {
@@ -409,6 +354,8 @@ function Task() {
                                   },
                                 },
                               );
+                              setTask(current=>current.map(task=>task._id===res.data.data._id?res.data.data:task));
+                              setSelectedTodo(res.data.data);
                             } catch (err) {
                               console.log(err);
                             }
@@ -440,28 +387,29 @@ function Task() {
                               );
 
                               setSelectedTodo(res.data.data);
+      setTask(current=>current.map(task=>task._id===res.data.data._id?res.data.data:task));
                               setTodosAddTask(res.data.data.task);
                             } catch (err) {
                               console.log(err);
                             }
                           }}
                         >
-                          {item.impotent ? "⭐" : "☆"}
+                          {item.impotent ? "â­" : "â˜†"}
                         </button>
                       </div>
                     ))}
                   </div>
                 </div>
               ) : (
-                <p className="no-task-text">Select a task</p>
+                <p className="no-task-text">Ready when you are. Select a task or create your first one.</p>
               )}
             </div>
           </div>
-        </div>
+        </WorkspaceLayout>
       </div>
 
       <Bottome_home />
-      <ToastContainer />
+      {reminderTask&&<div className="popup-overlay"><form className="popup-box" role="dialog" aria-modal="true" aria-label="Set task reminder" onSubmit={saveReminder}><h3>Task reminder</h3><p>{reminderTask.title}</p><label htmlFor="task-reminder-date">Date and time</label><input autoFocus className="popup_box_data" id="task-reminder-date" type="datetime-local" required value={reminderDate} onChange={event=>setReminderDate(event.target.value)} disabled={reminderSaving}/><div className="popup-buttons"><button type="button" onClick={()=>setReminderTask(null)} disabled={reminderSaving}>Cancel</button><button type="submit" disabled={reminderSaving}>{reminderSaving?'Saving...':'Save reminder'}</button></div></form></div>}<ToastContainer />
     </div>
   );
 }

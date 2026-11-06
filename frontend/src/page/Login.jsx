@@ -1,17 +1,15 @@
+import {API_BASE_URL} from '../util/api';
 import React from "react";
 import Navbar from "../components/sigup/Navbar";
 import { useState } from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import AuthArt from "../components/AuthArt";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../util/error";
 import axios from "axios";
 
 function Login() {
-  const baseURL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:3030"
-    : "https://taskify-gcxc.onrender.com";
+  const baseURL = API_BASE_URL;
   
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -68,22 +66,13 @@ function Login() {
       <div className="container-main">
         <div className="container">
           <div className="container-left">
-            <div className="image-box">
-              <DotLottieReact
-                src="https://lottie.host/9022c24f-7d3e-4f35-ab59-0659cd5fe427/aGU6Ab1VOZ.lottie"
-                loop
-                autoplay
-                className="lottie"
-              />
-            </div>
+            <AuthArt />
           </div>
 
-          <div className="container-right">
+          <form className="container-right" onSubmit={handlerSubmit}><div className="form-intro"><span className="eyebrow">YOUR PERSONAL WORKSPACE</span><h2>Welcome back.</h2><p>A clear mind starts with an organized space.</p></div>
             <div className="form-group">
-              <label>Email</label>
-
-              <input
-                type="text"
+              <label htmlFor="email">Email</label><input id="email"
+                type="email"
                 name="email"
                 value={userData.email}
                 placeholder="Enter your email..."
@@ -92,17 +81,15 @@ function Login() {
             </div>
 
             <div className="form-group hi">
-              <label>Password</label>
-              
-              <input
+              <label htmlFor="password">Password</label><input id="password"
                 type={showPassword ? "text" : "password"}
-                name="password"
+                autoComplete="current-password" name="password"
                 value={userData.password}
                 placeholder="Enter your password..."
                 onChange={handlerInput}
               />
               <button
-                className="input_btm"
+                type="button" className="input_btm"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Hide" : "Show"}
@@ -110,18 +97,18 @@ function Login() {
             </div>
 
             <div className="button-group">
-              <button className="btm_pro" type="submit" onClick={handlerSubmit}>
+              <button className="btm_pro" type="submit">
                 Login
               </button>
               <span className="login__footer">
-                Doesn't have an account?{" "}
+                New to Taskify?{" "}
                 <Link to={"/signup"} className="link">
                   {" "}
-                  -:Signup{" "}
+                  Create an account{" "}
                 </Link>
               </span>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <ToastContainer />

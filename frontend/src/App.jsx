@@ -1,3 +1,5 @@
+import {RealtimeProvider} from "./components/RealtimeProvider";
+import {ThemeProvider} from "./components/ThemeToggle";
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
@@ -16,7 +18,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
 
   return (
-    <div>
+    <ThemeProvider><RealtimeProvider><div>
       <Refresh setIsAuth={setIsAuth} />
       <Routes>
         <Route path="/" element={<Navigate to={"login"} replace />} />
@@ -39,7 +41,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
-    </div>
+    </div></RealtimeProvider></ThemeProvider>
   );
 }
 // Bottome_home

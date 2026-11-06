@@ -1,13 +1,2 @@
-import React from 'react'
-import "./navbar.css"
-function Navbar(props) {
-  return (
-    <div className='nav'>
-      <div className='nav1'>
-        <h1>{props.name}</h1>
-      </div>
-    </div>
-  )
-}
-
-export default Navbar
+import ThemeToggle from "../ThemeToggle";
+import {Link} from 'react-router-dom';import './navbar.css';export default function Navbar({name}){const signup=name==='signup';return <header className="auth-nav"><Link className="brand" to="/login"><span className="brand-mark">&#10003;</span>taskify<span className="brand-dot">.</span></Link><span className="nav-caption">Your day, a little more organized.</span><div className="auth-nav-actions"><ThemeToggle/><Link className="nav-action" to={signup?'/login':'/signup'}>{signup?'Sign in':'Create an account'} <span>&#8599;</span></Link></div></header>}

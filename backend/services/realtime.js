@@ -2,7 +2,7 @@ import {Server} from 'socket.io';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import {createReminderWorker} from './reminder_worker.js';
-export const allowedOrigins=['http://localhost:5173','http://127.0.0.1:5173','https://taskify-notes-task.vercel.app'];
+export const allowedOrigins=['http://localhost:5173','http://127.0.0.1:5173','https://taskify-notes-task.vercel.app','https://taskify-abw.pages.dev'];
 export function attachRealtime(server,{secret=()=>process.env.JWT_KEY,reminderIntervalMs=5000,wsEngine}={}){
  const io=new Server(server,{...(wsEngine?{wsEngine}:{}),cors:{origin:allowedOrigins,credentials:true},allowRequest:(req,done)=>done(null,!req.headers.origin||allowedOrigins.includes(req.headers.origin)),maxHttpBufferSize:1024*1024});
  io.use((socket,next)=>{try{const payload=jwt.verify(socket.handshake.auth?.token,secret(),{algorithms:['HS256']});if(!mongoose.isValidObjectId(payload._id))throw Error();socket.data.userId=String(payload._id);socket.data.expiresAt=payload.exp;next();}catch{next(new Error('Authentication required'))}});
