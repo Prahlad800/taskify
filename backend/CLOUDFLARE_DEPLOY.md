@@ -35,5 +35,8 @@ unused identifier, performs read-only database checks, verifies frontend CORS,
 and tests authenticated WebSocket/polling plus rejection of invalid tokens.
 It does not create production users, send signup emails or modify notes/tasks.
 
-Frontend API configuration still points to the existing Render backend. Set its
-API base URL to the production Worker URL when migrating the frontend.
+Frontend production builds use this Worker through `frontend/src/util/api.js`.
+Local Vite development defaults to `http://localhost:3030`. Set
+`VITE_API_BASE_URL` at build time to override either default.
+The production Pages origin `https://taskify-abw.pages.dev` is allowed for HTTP
+requests and authenticated Socket.IO connections.
