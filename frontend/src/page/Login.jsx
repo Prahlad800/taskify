@@ -15,7 +15,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [userData, setUserData] = useState({
-    email: "",
+    identifier: "",
 
     password: "",
   });
@@ -28,17 +28,21 @@ function Login() {
   };
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = userData;
+    const { identifier, password } = userData;
     // console.log(userData);
-    if (!email || !password) {
+    if (!identifier.trim() || !password) {
       return handleError("All fields required");
     }
 
     try {
-      const res = await axios.post(
-        `${baseURL}/user/login`,
-        userData,
-      );
+      const trimmedIdentifier = identifier.trim();
+      const identity = trimmedIdentifier.includes("@")
+        ? { email: trimmedIdentifier.toLowerCase() }
+        : { user_name: trimmedIdentifier };
+      const res = await axios.post(`${baseURL}/user/login`, {
+        ...identity,
+        password,
+      });
 
       const { jwtToken, users } = res.data;
 
@@ -71,11 +75,14 @@ function Login() {
 
           <form className="container-right" onSubmit={handlerSubmit}><div className="form-intro"><span className="eyebrow">YOUR PERSONAL WORKSPACE</span><h2>Welcome back.</h2><p>A clear mind starts with an organized space.</p></div>
             <div className="form-group">
-              <label htmlFor="email">Email</label><input id="email"
-                type="email"
-                name="email"
-                value={userData.email}
-                placeholder="Enter your email..."
+              <label htmlFor="identifier">Email or username</label><input id="identifier"
+                type="text"
+                name="identifier"
+                autoComplete="username"
+                autoCapitalize="none"
+                spellCheck="false"
+                value={userData.identifier}
+                placeholder="Enter your email or username..."
                 onChange={handlerInput}
               />
             </div>

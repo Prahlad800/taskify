@@ -5,7 +5,10 @@ import jwt from "jsonwebtoken"
 export const login = async (req, res) => {
     try {
         const { email, user_name, password } = req.body;
-        const existingUser = await User.findOne({ $or: [{ email }, { user_name }] })
+        const identity = email
+            ? { email: email.trim().toLowerCase() }
+            : { user_name: user_name.trim() };
+        const existingUser = await User.findOne(identity)
         if (!existingUser) {
             return res.status(403)
                 .json({
