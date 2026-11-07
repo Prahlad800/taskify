@@ -16,6 +16,8 @@ export default function NavbarHome({
   onSearchChange,
   searchLabel = 'Search notes',
 }) {
+  const displayName = (loggedInName || loggedInUserName || 'Guest').trim()
+  const avatarInitial = displayName.charAt(0).toUpperCase() || 'U'
   const { status } = useRealtime()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
@@ -54,9 +56,9 @@ export default function NavbarHome({
       <ThemeToggle />
       <InstallAppButton />
       <button type="button" className="notification-button" aria-label={reminderCount ? `${reminderCount} note reminders` : 'Open reminders'} onClick={() => onReminders ? onReminders() : navigate('/home?view=reminders')}><Icon name="reminders" size={24} />{reminderCount > 0 && <span className="notification-dot" />}</button>
-      <span className="name">{loggedInUserName || 'Guest'}</span>
+      <span className="name">{displayName}</span>
       <div className="account-anchor" ref={account}>
-        <button className="profile" aria-label="Account menu" aria-expanded={open} onClick={() => setOpen(!open)}>{(loggedInName || 'U').charAt(0).toUpperCase()}</button>
+        <button className="profile" aria-label="Account menu" aria-expanded={open} onClick={() => setOpen(!open)}>{avatarInitial}</button>
         {open && <div className="profile-box"><span>{loggedInName}</span><button onClick={logout} className="logout-btn">Sign out</button></div>}
       </div>
     </div>
