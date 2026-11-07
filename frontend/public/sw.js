@@ -1,5 +1,5 @@
-const CACHE_NAME = 'taskify-shell-v1';
-const APP_SHELL = ['/offline.html', '/manifest.webmanifest', '/favicon.svg'];
+const CACHE_NAME = 'taskify-shell-v2';
+const APP_SHELL = ['/offline.html', '/manifest.webmanifest', '/favicon-32x32.png', '/notesnexa-192x192.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));

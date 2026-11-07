@@ -39,7 +39,7 @@ export default function InstallAppButton() {
   }
 
   return <>
-    <button type="button" className="taskify-install-button" onClick={install} hidden={installed} aria-label="Install Taskify app">
+    <button type="button" className="taskify-install-button" onClick={install} hidden={installed} aria-label="Install NotesNexa app">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 16v4h14v-4"/></svg>
       <span>Install app</span>
     </button>
@@ -47,8 +47,8 @@ export default function InstallAppButton() {
       <section className="taskify-install-dialog" role="dialog" aria-modal="true" aria-labelledby="taskify-install-title">
         <button className="taskify-install-close" type="button" aria-label="Close install instructions" onClick={() => setShowHelp(false)}>×</button>
         <span className="taskify-install-mark" aria-hidden="true">✓</span>
-        <h2 id="taskify-install-title">Install Taskify</h2>
-        <p>In Chrome, open the <strong>⋮ menu</strong> and choose <strong>Install Taskify</strong> or <strong>Install page as app</strong>. You can also use the install icon at the right of the address bar when Chrome shows it.</p>
+        <h2 id="taskify-install-title">Install NotesNexa</h2>
+        <p>In Chrome, open the <strong>⋮ menu</strong> and choose <strong>Install NotesNexa</strong> or <strong>Install page as app</strong>. You can also use the install icon at the right of the address bar when Chrome shows it.</p>
         <button className="taskify-install-dismiss" type="button" onClick={() => setShowHelp(false)}>Got it</button>
       </section>
     </div>}

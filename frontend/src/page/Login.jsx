@@ -108,7 +108,7 @@ function Login() {
                 Login
               </button>
               <span className="login__footer">
-                New to Taskify?{" "}
+                New to NotesNexa?{" "}
                 <Link to={"/signup"} className="link">
                   {" "}
                   Create an account{" "}

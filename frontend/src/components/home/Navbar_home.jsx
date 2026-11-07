@@ -40,8 +40,8 @@ export default function NavbarHome({
   }
 
   return <header className="contener-main workspace-topnav">
-    <button className="contener-img brand" onClick={() => onHome ? onHome() : navigate('/home')}>
-      <span className="brand-mark">&#10003;</span>taskify<span className="brand-dot">.</span>
+    <button className="contener-img brand" aria-label="NotesNexa home" onClick={() => onHome ? onHome() : navigate('/home')}>
+      <img className="notesnexa-brand-icon" src="/notesnexa-192x192.png" alt="NotesNexa" />
     </button>
     <div className="contener-user"><span className="greating">{greeting}</span><strong className="user">{loggedInName || 'Welcome'}</strong></div>
     <div className="header-search" role="search">

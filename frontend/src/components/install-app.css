@@ -1,5 +1,7 @@
 .workspace-topnav .taskify-install-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 12px;border:1px solid #d8c7ff;border-radius:10px;background:#f1ebff;color:#4c16d5;font-size:12px;font-weight:700;white-space:nowrap}
 .workspace-topnav .taskify-install-button:hover{background:#e9defe;box-shadow:0 3px 12px #6424de20}
+.notesnexa-brand-icon{display:block;width:40px;height:40px;object-fit:contain}
+.auth-nav .notesnexa-brand-icon{width:36px;height:36px}
 .taskify-install-button[hidden]{display:none}
 .taskify-install-overlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:#17132685}
 .taskify-install-dialog{position:relative;width:min(100%,420px);padding:30px;border:1px solid #e7e8f1;border-radius:20px;background:#fff;color:#25243d;box-shadow:0 22px 70px #17132635}

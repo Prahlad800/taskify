@@ -1,1 +1,1 @@
-import './footer_home.css';export default function Footer(){return <footer className="workspace-footer"><span>? {new Date().getFullYear()} Taskify</span><span>A little more organized. A lot more you.</span><span>Made by Prahlad <span className="brand-dot">?</span></span></footer>}
+import './footer_home.css';export default function Footer(){return <footer className="workspace-footer"><span>? {new Date().getFullYear()} NotesNexa</span><span>A little more organized. A lot more you.</span><span>Made by Prahlad <span className="brand-dot">?</span></span></footer>}
