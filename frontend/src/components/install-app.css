@@ -1,7 +1,8 @@
 .workspace-topnav .taskify-install-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 12px;border:1px solid #d8c7ff;border-radius:10px;background:#f1ebff;color:#4c16d5;font-size:12px;font-weight:700;white-space:nowrap}
 .workspace-topnav .taskify-install-button:hover{background:#e9defe;box-shadow:0 3px 12px #6424de20}
-.notesnexa-brand-icon{display:block;width:64px;height:64px;object-fit:contain}
-.auth-nav .notesnexa-brand-icon{width:52px;height:52px}
+.workspace-topnav .brand{justify-self:center;align-self:center}
+.notesnexa-brand-icon{display:block;width:76px;height:76px;object-fit:contain}
+.auth-nav .notesnexa-brand-icon{width:60px;height:60px}
 .taskify-install-button[hidden]{display:none}
 .taskify-install-overlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:#17132685}
 .taskify-install-dialog{position:relative;width:min(100%,420px);padding:30px;border:1px solid #e7e8f1;border-radius:20px;background:#fff;color:#25243d;box-shadow:0 22px 70px #17132635}
@@ -9,4 +10,4 @@
 .taskify-install-mark{display:grid;width:48px;height:48px;place-items:center;border-radius:15px;background:#5854db;color:#fff;font-size:30px;font-weight:800}
 .taskify-install-close{position:absolute;top:12px;right:14px;border:0;background:transparent;color:#77788e;font-size:27px;line-height:1}
 .taskify-install-dismiss{margin-top:20px;padding:10px 18px;border:0;border-radius:10px;background:#5854db;color:#fff;font-weight:700}
-@media(max-width:640px){.notesnexa-brand-icon{width:54px;height:54px}.auth-nav .notesnexa-brand-icon{width:48px;height:48px}.workspace-topnav .taskify-install-button{min-height:33px;padding:7px 9px;font-size:11px}.workspace-topnav .contener-name{gap:8px}}
+@media(max-width:640px){.notesnexa-brand-icon{width:66px;height:66px}.auth-nav .notesnexa-brand-icon{width:54px;height:54px}.workspace-topnav .taskify-install-button{min-height:33px;padding:7px 9px;font-size:11px}.workspace-topnav .contener-name{gap:8px}}
