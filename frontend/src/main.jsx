@@ -5,6 +5,7 @@ import {BrowserRouter} from "react-router-dom"
 import App from './App.jsx'
 import './theme.css'
 import './workspace-redesign.css'
+import './workspace-header.css'
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {

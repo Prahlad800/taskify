@@ -1,0 +1,98 @@
+/* Keep the shared Notes and Tasks header balanced at every width. */
+.workspace-app .workspace-topnav {
+  align-items: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.workspace-app .workspace-topnav .brand {
+  justify-self: center;
+  align-self: center;
+}
+
+.workspace-app .workspace-topnav .notesnexa-brand-icon {
+  width: 76px;
+  height: 76px;
+}
+
+@media (min-width: 641px) and (max-width: 1050px) {
+  .workspace-app .workspace-topnav {
+    height: 84px;
+    padding: 8px 20px;
+    grid-template-columns: minmax(100px, 1fr) minmax(180px, 1.5fr) auto;
+    gap: 12px;
+  }
+
+  .workspace-app .workspace-topnav .notesnexa-brand-icon {
+    width: 68px;
+    height: 68px;
+  }
+
+  .workspace-topnav .contener-name {
+    gap: 12px;
+  }
+
+  .workspace-topnav .name {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .workspace-app .workspace-topnav {
+    height: 114px;
+    padding: 6px 14px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 58px 36px;
+    gap: 8px 10px;
+  }
+
+  .workspace-app .workspace-topnav .brand {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  .workspace-app .workspace-topnav .notesnexa-brand-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .workspace-app .workspace-topnav .contener-name {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 7px;
+  }
+
+  .workspace-topnav .name {
+    display: none;
+  }
+
+  .workspace-app .workspace-topnav .header-search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    height: 36px;
+  }
+
+  .workspace-app .workspace-layout > .contener-note-body,
+  .workspace-app .contener-note-body {
+    min-height: calc(100dvh - 114px);
+  }
+
+  .workspace-app .contener-note-body > .note-editor-panel,
+  .workspace-app .contener-note-content-input,
+  .workspace-app .content_task {
+    min-height: calc(100dvh - 186px);
+  }
+}
+
+@media (max-width: 360px) {
+  .workspace-topnav .theme-toggle span {
+    display: none;
+  }
+
+  .workspace-topnav .theme-toggle {
+    min-width: 34px;
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+}
