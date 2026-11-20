@@ -18,6 +18,7 @@ export class TaskifyBackend extends DurableObject {
     this.connection = null;
   }
   async fetch(request) {
+    process.env.CLOUDFLARE_WORKER = '1';
     const path = new URL(request.url).pathname;
     if (path === '/health') return Response.json({success:true,service:'taskify-backend'});
     try {

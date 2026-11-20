@@ -15,8 +15,10 @@ Cloudflare Git builds must use `backend` as the root directory, install with
 The current release was deployed directly from the local backend; local changes
 must be reviewed and pushed separately before Git builds will use them.
 
-Configure `MONG_URI`, `JWT_KEY`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`,
-`SMTP_PASS`, and `SMTP_FROM` as encrypted Worker secrets. `OTP_SECRET` is optional.
+Configure `MONG_URI`, `JWT_KEY`, `RESEND_API_KEY`, and `EMAIL_FROM` as encrypted
+Worker secrets. `EMAIL_FROM` must be a verified sender on Resend. Cloudflare
+Workers cannot open outbound SMTP sockets, so Gmail SMTP settings are only for
+the local Node server. `OTP_SECRET` is optional.
 Never commit `.env` or use real credentials in `.env.example`.
 
 The Worker forwards all traffic to one named SQLite Durable Object. It keeps the

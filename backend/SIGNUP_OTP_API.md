@@ -2,7 +2,13 @@
 
 New accounts require email verification. Existing accounts keep their current login. OTP is sent to the email entered during signup, not to the phone number.
 
-## Gmail setup
+## Email provider setup
+
+Production on Cloudflare Workers uses Resend's HTTPS API because Workers cannot
+open direct SMTP sockets. Configure `RESEND_API_KEY` and `EMAIL_FROM` as Worker
+secrets. Verify the sender domain/address with Resend before sending.
+
+For the local Node server, Gmail SMTP remains supported:
 
 Enable Google 2-Step Verification and create a Google App Password. Put these values in backend/.env (ignored by Git):
 
