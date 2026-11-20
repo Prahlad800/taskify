@@ -19,7 +19,7 @@ export function createSignupService({sendMail=sendSignupOtp,assertMail=mailConfi
   try{await SignupOtp.findOneAndUpdate({email:details.email,status:{$ne:'verifying'},$or:[{lastSentAt:{$lte:new Date(date.getTime()-OTP_RESEND_SECONDS*1000)}},{expiresAt:{$lte:date}}]},{$set:record},{upsert:true,returnDocument:'after',runValidators:true});}
   catch(e){if(e.code===11000)throw fail(429,'Please wait before requesting another code.',OTP_RESEND_SECONDS);throw e;}
   try{await sendMail({email:details.email,code});await SignupOtp.updateOne({email:details.email,challengeId,status:'sending'},{$set:{status:'ready'}});}
-  catch{await SignupOtp.deleteOne({email:details.email,challengeId,status:'sending'});throw fail(503,'Unable to send the verification email. Please try again shortly.');}
+  catch(error){console.error('Signup OTP email delivery failed:',error?.code||error?.name||'unknown',Number.isInteger(error?.responseCode)?error.responseCode:'');await SignupOtp.deleteOne({email:details.email,challengeId,status:'sending'});throw fail(503,'Unable to send the verification email. Please try again shortly.');}
   return {email:details.email,challengeId,expiresIn:OTP_TTL_SECONDS,resendAfter:OTP_RESEND_SECONDS};
  }
  return {
