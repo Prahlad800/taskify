@@ -4,6 +4,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 import Home from "./page/Home";
+import Landing from "./page/Landing";
 import Login from "./page/Login";
 import Signup from "./page/Signup";
 import Refresh from "./util/Refresh";
@@ -21,7 +22,7 @@ function App() {
     <ThemeProvider><RealtimeProvider><div>
       <Refresh setIsAuth={setIsAuth} />
       <Routes>
-        <Route path="/" element={<Navigate to={"login"} replace />} />
+        <Route path="/" element={<Landing />} />
         <Route
           path="/home"
           element={

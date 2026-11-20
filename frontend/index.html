@@ -9,9 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#5854db" />
     <meta name="description" content="NotesNexa keeps your notes, tasks, and everyday progress in one clear space." /><title>NotesNexa | Your daily space</title>
+    <style>
+      .app-loading{min-height:100vh;display:grid;align-content:center;justify-items:center;gap:14px;background:#f7f7fb;color:#25243d;font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em}
+      .app-loading img{width:68px;height:68px;object-fit:contain;animation:loading-pop 1.8s ease-in-out infinite}
+      .app-loading strong{font-size:20px;letter-spacing:-.5px}.app-loading strong span{color:#5854db}
+      .app-loading p{margin:0;color:#77788e;font-size:13px;font-weight:400}
+      .app-loading-ring{width:24px;height:24px;margin-top:5px;border:2px solid #e5e2f5;border-top-color:#5854db;border-radius:50%;animation:loading-spin .8s linear infinite}
+      @keyframes loading-spin{to{transform:rotate(360deg)}}@keyframes loading-pop{50%{transform:translateY(-3px) scale(1.04)}}
+      [data-theme="dark"] .app-loading{background:#15141e;color:#eeedf8}[data-theme="dark"] .app-loading strong span{color:#aaa0ff}[data-theme="dark"] .app-loading p{color:#a6a2b9}[data-theme="dark"] .app-loading-ring{border-color:#343148;border-top-color:#aaa0ff}
+      @media(prefers-reduced-motion:reduce){.app-loading img,.app-loading-ring{animation:none}}
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div class="app-loading" role="status" aria-live="polite"><img src="/favicon-32x32.png" alt="" /><strong>Notes<span>Nexa</span></strong><i class="app-loading-ring" aria-hidden="true"></i><p>Getting your space ready...</p></div></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

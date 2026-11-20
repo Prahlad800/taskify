@@ -67,13 +67,18 @@ function Login() {
   return (
     <div>
       <Navbar name="Login" />
-      <div className="container-main">
+      <main className="container-main login-page">
         <div className="container">
           <div className="container-left">
             <AuthArt />
           </div>
 
-          <form className="container-right" onSubmit={handlerSubmit}><div className="form-intro"><span className="eyebrow">YOUR PERSONAL WORKSPACE</span><h2>Welcome back.</h2><p>A clear mind starts with an organized space.</p></div>
+          <form className="container-right" onSubmit={handlerSubmit}>
+            <div className="form-intro">
+              <span className="eyebrow">YOUR PERSONAL WORKSPACE</span>
+              <h2 id="login-title">Welcome back</h2>
+              <p>Login to access your notes and tasks.</p>
+            </div>
             <div className="form-group">
               <label htmlFor="identifier">Email or username</label><input id="identifier"
                 type="text"
@@ -117,7 +122,7 @@ function Login() {
             </div>
           </form>
         </div>
-      </div>
+      </main>
       <ToastContainer />
     </div>
   );
