@@ -13,8 +13,8 @@ export class TaskifyBackend extends DurableObject {
   constructor(ctx, env) {
     super(ctx, env);
     this.application = createApplication({wsEngine:NativeWebSocketEngine,clientIp:req=>req.headers['cf-connecting-ip']||'127.0.0.1'});
-    this.application.server.listen(3030);
-    this.http = httpServerHandler({port:3030});
+    this.application.server.listen(0);
+    this.http = httpServerHandler(this.application.server);
     this.connection = null;
   }
   async fetch(request) {

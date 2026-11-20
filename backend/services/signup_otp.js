@@ -10,9 +10,10 @@ const fail=(status,message,retryAfter)=>Object.assign(new Error(message),{status
 function digest(email,challengeId,code){return createHmac('sha256',process.env.OTP_SECRET || process.env.JWT_KEY).update(email+':'+challengeId+':'+code).digest('hex');}
 const emailQuery=email=>new RegExp('^'+email.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'$','i');
 export function createSignupService({sendMail=sendSignupOtp,assertMail=mailConfiguration,now=()=>new Date()}={}){
+ function assertMailReady(){if(process.env.RESEND_API_KEY){if(!(process.env.EMAIL_FROM||'onboarding@resend.dev'))throw fail(503,'Signup email sender is not configured.');return;}assertMail();}
  async function available(email,user_name){if(await User.exists({$or:[{email:emailQuery(email)},{user_name}]}))throw fail(409,'An account with this email or username already exists. Please sign in.');}
  async function issue(details){
-  assertMail();
+  assertMailReady();
   if(!process.env.JWT_KEY)throw fail(503,'Signup is temporarily unavailable.');
   const date=now();const challengeId=randomBytes(24).toString('hex');const code=String(randomInt(100000,1000000));
   const record={...details,challengeId,otpHash:digest(details.email,challengeId,code),attempts:0,status:'sending',lastSentAt:date,expiresAt:new Date(date.getTime()+OTP_TTL_SECONDS*1000)};
